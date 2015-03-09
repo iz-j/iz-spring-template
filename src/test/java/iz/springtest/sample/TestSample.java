@@ -1,38 +1,157 @@
 package iz.springtest.sample;
 
 import static org.junit.Assert.*;
-import iz.springtest.JettyTestServer;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import iz.spring.config.WebMvcConfig;
+import iz.springtest.TestConfig;
 
-import java.io.IOException;
-
-import org.junit.Rule;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.joda.time.DateTime;
+import org.junit.Before;
 import org.junit.Test;
-import org.springframework.web.client.RestTemplate;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+// TODO 共通化！
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
+@ContextConfiguration(classes = { WebMvcConfig.class, TestConfig.class })
 public class TestSample {
-	@Rule
-	public JettyTestServer testServer = new JettyTestServer();
+	private static final Logger logger = LoggerFactory.getLogger(TestSample.class);
+
+	private MockMvc mockMvc;
+
+	@Mock
+	private TestSampleService service;
+	@InjectMocks
+	private TestSampleController controller;
+
+	@Before
+	public void setup() {
+		// this must be called for the @Mock annotations above to be processed
+		// and for the mock service to be injected into the controller under
+		// test.
+		MockitoAnnotations.initMocks(this);
+
+		mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+	}
 
 	@Test
-	public void test_hello() {
-		String expected = "Hello!";
-		RestTemplate rest = new RestTemplate();
-		String actual = rest.getForObject("http://localhost:8888/hello", String.class);
+	public void test_hello() throws Exception {
+		final MvcResult result = mockMvc
+				.perform(get("http://localhost:8888/hello"))
+				.andExpect(status().isOk())
+				.andReturn();
 
+		final String actual = result.getResponse().getContentAsString();
+		logger.info("actual = {}", actual);
+		assertEquals("Hello!", actual);
+	}
+
+	@Test
+	public void test_dto() throws Exception {
+		TestSampleDto expected = new TestSampleDto();
+		final MvcResult result = mockMvc
+				.perform(get("http://localhost:8888/dto"))
+				.andExpect(status().isOk())
+				.andReturn();
+
+		final TestSampleDto actual = new ObjectMapper().readValue(result.getResponse().getContentAsByteArray(),
+				TestSampleDto.class);
+		logger.info("actual = {}", actual);
 		assertEquals(expected, actual);
 	}
 
 	@Test
-	public void test_dto() throws JsonParseException, JsonMappingException, IOException {
-		String expected = "Hello!";
-		RestTemplate rest = new RestTemplate();
-		String actual = rest.getForObject("http://localhost:8888/dto", String.class);
-		TestSampleDto dto = new ObjectMapper().readValue(actual, TestSampleDto.class);
-		System.out.println(dto);
-		assertEquals(expected, actual);
+	public void test_mock() throws Exception {
+		when(service.hoge()).thenReturn("fuga");
+
+		final MvcResult result = mockMvc
+				.perform(get("http://localhost:8888/hoge"))
+				.andExpect(status().isOk())
+				.andReturn();
+
+		final String actual = result.getResponse().getContentAsString();
+		logger.info("actual = {}", actual);
+		assertEquals("fuga", actual);
+	}
+
+	@Controller
+	public static class TestSampleController {
+
+		@Autowired
+		private TestSampleService service;
+
+		@RequestMapping(value = "/hello")
+		public @ResponseBody String hello() {
+			logger.info("#hello");
+			return "Hello!";
+		}
+
+		@RequestMapping(value = "/dto")
+		public @ResponseBody TestSampleDto dto() {
+			logger.info("#dto");
+			return new TestSampleDto();
+		}
+
+		@RequestMapping(value = "/hoge")
+		public @ResponseBody String hoge() {
+			logger.info("#hoge");
+			return service.hoge();
+		}
+	}
+
+	public static class TestSampleDto {
+		public Long id = 123L;
+		public String name = "hoge";
+		public DateTime date = new DateTime(0);
+
+		@Override
+		public String toString() {
+			return ToStringBuilder.reflectionToString(this);
+		}
+
+		@Override
+		public int hashCode() {
+			return HashCodeBuilder.reflectionHashCode(this);
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			return EqualsBuilder.reflectionEquals(this, obj);
+		}
+	}
+
+	public static interface TestSampleService {
+		String hoge();
+	}
+
+	@Service
+	public static class TestSampleServiceImpl implements TestSampleService {
+		@Override
+		public String hoge() {
+			return "hoge";
+		}
 	}
 }

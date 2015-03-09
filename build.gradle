@@ -59,6 +59,7 @@ dependencies {
 	testCompile(
 			'junit:junit:4.+',
 			'org.mockito:mockito-all:1.+',
+			'org.springframework:spring-test:4.1.+',
 			)
 }
 

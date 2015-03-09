@@ -2,7 +2,6 @@ package iz.spring.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.validation.Validator;
@@ -20,10 +19,8 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "iz.spring" })
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 
-	private static final String MESSAGE_SOURCE = "/WEB-INF/i18n";
 	private static final String VIEWS = "/WEB-INF/views/";
 	private static final String[] RESOURCES_HANDLERS = new String[] { "/js/", "/css/", "/img/", "/lib/" };
 
@@ -35,10 +32,10 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		return requestMappingHandlerMapping;
 	}
 
-	@Bean()
+	@Bean
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasename(MESSAGE_SOURCE);
+		messageSource.setBasename(VIEWS);
 		messageSource.setUseCodeAsDefaultMessage(true);
 		messageSource.setDefaultEncoding("UTF-8");
 		messageSource.setCacheSeconds(0);
@@ -48,7 +45,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		for (String resourceHandler : RESOURCES_HANDLERS) {
-			registry.addResourceHandler(resourceHandler).addResourceLocations(resourceHandler + "**");
+			registry.addResourceHandler(resourceHandler + "**").addResourceLocations(resourceHandler);
 		}
 	}
 
@@ -63,6 +60,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		templateResolver.setPrefix(VIEWS);
 		templateResolver.setSuffix(".html");
 		templateResolver.setTemplateMode("HTML5");
+		templateResolver.setCharacterEncoding("UTF-8");
 		templateResolver.setCacheable(false);
 		return templateResolver;
 	}
@@ -80,6 +78,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 		ThymeleafViewResolver thymeleafViewResolver = new ThymeleafViewResolver();
 		thymeleafViewResolver.setTemplateEngine(templateEngine());
 		thymeleafViewResolver.setCharacterEncoding("UTF-8");
+		thymeleafViewResolver.setOrder(1);
+		thymeleafViewResolver.setViewNames(new String[] { "*" });
+		thymeleafViewResolver.setCache(false);
 		return thymeleafViewResolver;
 	}
 

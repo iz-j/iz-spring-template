@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="envelope :: envelope">
+<head th:fragment="link" th:remove="tag">
+<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}" />
+</head>
+
+<div th:fragment="content">
+  <form id="login-form" th:action="@{/login/try}" method="post" class="form-horizontal">
+    <fieldset>
+      <h3>Log in to your account.</h3>
+      <div class="login-param">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" />
+      </div>
+      <div class="login-param">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" />
+      </div>
+    </fieldset>
+    <br />
+    <div>
+      <button type="submit" class="btn btn-default">Log In</button>
+    </div>
+  </form>
+</div>
+
+<object th:fragment="script" th:remove="tag">
+  <script type="text/javascript" th:src="@{/js/login.js}"></script>
+</object>
+</html>

@@ -13,7 +13,7 @@ public final class WebAppInitializer extends AbstractAnnotationConfigDispatcherS
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		Class<?>[] configClasses = new Class[] { WebSecurityConfig.class, WebMvcConfig.class };
+		Class<?>[] configClasses = new Class[] { WebMvcConfig.class, WebSecurityConfig.class };
 		final Class<?> externalConfigClass = ExternalProperties.getConfigClass();
 		if (externalConfigClass != null) {
 			configClasses = ArrayUtils.add(configClasses, externalConfigClass);

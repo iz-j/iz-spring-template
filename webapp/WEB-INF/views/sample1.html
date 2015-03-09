@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="envelope :: envelope">
+<head th:fragment="link" th:remove="tag">
+<link rel="stylesheet" type="text/css" th:href="@{/css/sample.css}" />
+</head>
+
+<div th:fragment="content">
+  <h1 th:utext="#{message}">This page is Sample 1!</h1>
+  <h3 th:text="${'Server time = ' + time}"></h3>
+  <h3 th:text="${'Access count = ' + count}"></h3>
+</div>
+
+<object th:fragment="script" th:remove="tag">
+  <script type="text/javascript" th:src="@{/js/sample-1.js}"></script>
+</object>
+</html>

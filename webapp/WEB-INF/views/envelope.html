@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:fragment="envelope">
+<head>
+<meta charset="utf-8" />
+
+<title>Sample</title>
+
+<!-- Stylesheets -->
+<link rel="stylesheet" th:href="@{/css/envelope.css}" />
+<link th:substituteby="this :: link" />
+<!-- END Stylesheets -->
+
+</head>
+<body>
+
+  <div th:replace="this :: content"></div>
+
+  <script th:src="@{/js/envelope.js}"></script>
+  <div th:substituteby="this :: script"></div>
+
+</body>
+</html>
