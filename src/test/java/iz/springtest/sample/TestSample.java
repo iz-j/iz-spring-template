@@ -20,7 +20,6 @@ import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -29,7 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -97,26 +96,26 @@ public class TestSample {
 		assertEquals("fuga", actual);
 	}
 
-	@Controller
+	@RestController
 	public static class TestSampleController {
 
 		@Autowired
 		private TestSampleService service;
 
 		@RequestMapping(value = "/hello")
-		public @ResponseBody String hello() {
+		public String hello() {
 			logger.info("#hello");
 			return "Hello!";
 		}
 
 		@RequestMapping(value = "/dto")
-		public @ResponseBody TestSampleDto dto() {
+		public TestSampleDto dto() {
 			logger.info("#dto");
 			return new TestSampleDto();
 		}
 
 		@RequestMapping(value = "/hoge")
-		public @ResponseBody String hoge() {
+		public String hoge() {
 			logger.info("#hoge");
 			return service.hoge();
 		}

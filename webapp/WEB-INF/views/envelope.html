@@ -12,9 +12,16 @@
 
 </head>
 <body>
+  <header class="envelope-header" th:if="${!#strings.isEmpty(_username)}">
+    <form class="envelope-logout" th:action="@{/logout}">
+      <span th:text="${_username}"></span>
+      <button type="submit">Logout</button>
+    </form>
+  </header>
 
   <div th:replace="this :: content"></div>
 
+  <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
   <script th:src="@{/js/envelope.js}"></script>
   <div th:substituteby="this :: script"></div>
 

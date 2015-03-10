@@ -1,0 +1,17 @@
+#login-form {
+  width: 400px;
+  margin: auto;
+}
+
+#login-error {
+  color: red;
+}
+
+.login-param {
+  margin: 5px 0px;
+}
+
+.login-param label {
+  display: inline-block;
+  width: 100px;
+}

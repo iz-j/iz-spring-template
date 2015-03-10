@@ -16,9 +16,16 @@ public class SampleController {
 
 	@RequestMapping(value = "first", method = RequestMethod.GET)
 	public ModelAndView first() {
-		ModelAndView mv = new ModelAndView("sample1");
+		ModelAndView mv = new ModelAndView("sample/sample");
 		mv.getModelMap().addAttribute("time", new DateTime());
 		mv.getModelMap().addAttribute("count", ACCESS_COUNT.addAndGet(1));
+		return mv;
+	}
+
+	@RequestMapping(value = "fragment", method = RequestMethod.GET)
+	public ModelAndView fragment() {
+		ModelAndView mv = new ModelAndView("sample/sample-fragment");
+		mv.addObject("time", new DateTime());
 		return mv;
 	}
 

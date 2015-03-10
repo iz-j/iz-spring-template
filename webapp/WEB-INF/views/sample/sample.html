@@ -5,12 +5,16 @@
 </head>
 
 <div th:fragment="content">
-  <h1 th:utext="#{message}">This page is Sample 1!</h1>
+  <h1 th:utext="#{sample1.message}">This page is Sample 1!</h1>
   <h3 th:text="${'Server time = ' + time}"></h3>
   <h3 th:text="${'Access count = ' + count}"></h3>
+
+  <button id="btn-get">Get fragment via ajax</button>
+  <ul id="get-result">
+  </ul>
 </div>
 
 <object th:fragment="script" th:remove="tag">
-  <script type="text/javascript" th:src="@{/js/sample-1.js}"></script>
+  <script type="text/javascript" th:src="@{/js/sample/sample.js}"></script>
 </object>
 </html>

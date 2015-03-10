@@ -68,36 +68,38 @@ public class SecurityServiceImpl implements SecurityService {
 		http
 		// ユーザーが保護ページにアクセスしたときに表示するページを指定
 		.exceptionHandling()
-				.accessDeniedPage("/login/error")
-				.and()
+		.accessDeniedPage("/login/error")
+		.and()
 
-				// どのロールがどのページにアクセス可能かを指定する
-				.authorizeRequests()
-				.antMatchers("/js/**", "/css/**", "/img/**", "/login/**")
-				.permitAll()
-				.antMatchers("/admin/**")
-				.hasRole("ADMIN")
-				.anyRequest()
-				.authenticated()
-				.and()
+		// どのロールがどのページにアクセス可能かを指定する
+		.authorizeRequests()
+		.antMatchers("/js/**", "/css/**", "/img/**", "/login/**")
+		.permitAll()
+		.antMatchers("/admin/**")
+		.hasRole("ADMIN")
+		.anyRequest()
+		.authenticated()
+		.and()
 
-				// ログインフォームの設定：
-				// loginPage: ログインビュー
-				// loginProcessingUrl: ログインフォームがサブミットされる URL
-				// defaultSuccessUrl: ログイン成功時にリダイレクトされる URL
-				.formLogin()
-				.loginPage("/login/page")
-				.loginProcessingUrl("/login/try")
-				.defaultSuccessUrl("/sample/first")
-				.failureUrl("/login/page?error=true")
-				.and()
-				.logout()
-				.permitAll()
-				.and()
+		// ログインフォームの設定：
+		// loginPage: ログインビュー
+		// loginProcessingUrl: ログインフォームがサブミットされる URL
+		// defaultSuccessUrl: ログイン成功時にリダイレクトされる URL
+		.formLogin()
+		.loginPage("/login/page")
+		.loginProcessingUrl("/login/try")
+		.defaultSuccessUrl("/sample/first", true)
+		.failureUrl("/login/page?error=true")
+		.and()
+		.logout()
+		.logoutUrl("/logout")
+		.logoutSuccessUrl("/login/page")
+		.permitAll()
+		.and()
 
-				// その他
-				.csrf()
-				.disable();
+		// CSRF
+		.csrf()
+		.disable();
 	}
 
 }
