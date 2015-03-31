@@ -1,6 +1,6 @@
-package iz.spring.config;
+package iz.spring.base.config.web;
 
-import iz.spring.config.security.SecurityContextInterceptor;
+import iz.spring.sample.security.SecurityContextInterceptor;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +21,17 @@ import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
+/**
+ * Web mvc configration.<br>
+ * <ul>
+ * <li>Configure directories for several resources.
+ * <li>Enable thymeleaf as template engine.
+ * </ul>
+ * and so on.
+ *
+ * @author izumi_j
+ *
+ */
 @Configuration
 @EnableWebMvc
 public class WebMvcConfig extends WebMvcConfigurationSupport {

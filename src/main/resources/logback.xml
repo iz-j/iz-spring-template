@@ -8,7 +8,7 @@
     </encoder>
   </appender>
 
-  <logger name="iz.gae" level="INFO" additivity="false">
+  <logger name="iz" level="INFO" additivity="false">
     <appender-ref ref="CONSOLE" />
   </logger>
 </configuration>

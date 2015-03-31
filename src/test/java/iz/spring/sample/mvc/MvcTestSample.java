@@ -1,11 +1,11 @@
-package iz.springtest.sample;
+package iz.spring.sample.mvc;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import iz.spring.config.WebMvcConfig;
-import iz.springtest.TestConfig;
+import iz.spring.base.config.AppConfig;
+import iz.spring.base.config.web.WebMvcConfig;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -35,9 +35,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 // TODO 共通化！
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = { WebMvcConfig.class, TestConfig.class })
-public class TestSample {
-	private static final Logger logger = LoggerFactory.getLogger(TestSample.class);
+@ContextConfiguration(classes = { AppConfig.class, WebMvcConfig.class })
+public class MvcTestSample {
+	private static final Logger logger = LoggerFactory.getLogger(MvcTestSample.class);
 
 	private MockMvc mockMvc;
 

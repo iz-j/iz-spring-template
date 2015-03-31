@@ -1,4 +1,4 @@
-package iz.spring.config.security;
+package iz.spring.sample.security;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -8,7 +8,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.request.WebRequestInterceptor;
 
-public class SecurityContextInterceptor implements WebRequestInterceptor {
+/**
+ * Interceptor to set the user information to the response.
+ *
+ * @author izumi_j
+ *
+ */
+public final class SecurityContextInterceptor implements WebRequestInterceptor {
 
 	@Override
 	public void preHandle(WebRequest request) throws Exception {

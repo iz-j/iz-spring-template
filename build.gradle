@@ -42,8 +42,10 @@ dependencies {
 	compile(
 			'org.springframework:spring-context:4.1.+',
 			'org.springframework:spring-webmvc:4.1.+',
+			'org.springframework:spring-aspects:4.1.+',
 			'org.springframework.security:spring-security-web:3.2.+',
 			'org.springframework.security:spring-security-config:3.2.+',
+			'org.springframework.data:spring-data-jpa:1.8.0.RELEASE',
 			)
 
 	compile(
@@ -54,6 +56,11 @@ dependencies {
 	runtime(
 			'ch.qos.logback:logback-classic:1.1.+',
 			'org.slf4j:jcl-over-slf4j:1.7.+',
+			)
+
+	runtime(
+			'com.h2database:h2:1.4.+',
+			'org.hibernate:hibernate-entitymanager:4.3.+',
 			)
 
 	testCompile(

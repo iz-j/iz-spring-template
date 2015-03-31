@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:include="envelope :: envelope">
+<head th:fragment="link" th:remove="tag">
+<link rel="stylesheet" type="text/css" th:href="@{/css/login/login.css}" />
+</head>
+
+<div th:fragment="content">
+  <h1>Access denied!</h1>
+</div>
+
+<object th:fragment="script" th:remove="tag">
+</object>
+</html>

@@ -13,7 +13,7 @@
 </head>
 <body>
   <header class="envelope-header" th:if="${!#strings.isEmpty(_username)}">
-    <form class="envelope-logout" th:action="@{/logout}">
+    <form class="envelope-logout" th:action="@{/logout}" method="post">
       <span th:text="${_username}"></span>
       <button type="submit">Logout</button>
     </form>
